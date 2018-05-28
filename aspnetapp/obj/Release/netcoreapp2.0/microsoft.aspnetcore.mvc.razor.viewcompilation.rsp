@@ -1,0 +1,11 @@
+C:\Users\tfssetup\Desktop\docker\aspnetapp
+--output-path=obj\Release\netcoreapp2.0\
+--application-name=aspnetapp
+--content-root=C:\Users\tfssetup\Desktop\docker\aspnetapp
+--file=C:\Users\tfssetup\Desktop\docker\aspnetapp\Views\Home\About.cshtml
+--file=C:\Users\tfssetup\Desktop\docker\aspnetapp\Views\Home\Contact.cshtml
+--file=C:\Users\tfssetup\Desktop\docker\aspnetapp\Views\Home\Index.cshtml
+--file=C:\Users\tfssetup\Desktop\docker\aspnetapp\Views\Shared\Error.cshtml
+--file=C:\Users\tfssetup\Desktop\docker\aspnetapp\Views\Shared\_Layout.cshtml
+--file=C:\Users\tfssetup\Desktop\docker\aspnetapp\Views\_ViewImports.cshtml
+--file=C:\Users\tfssetup\Desktop\docker\aspnetapp\Views\_ViewStart.cshtml

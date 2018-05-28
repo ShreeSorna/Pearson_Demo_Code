@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: pearson-dev
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pearson-dev
+  strategy:
+    type: RollingUpdate
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: pearson-dev
+    spec:
+      containers:
+      - name: pearson-dev
+        image: deploymentimagerepo.azurecr.io/testapp_26
+        ports:
+         - containerPort: 80 
+        resources:
+          limits:
+             memory: "300Mi"
+             cpu: "300m"
