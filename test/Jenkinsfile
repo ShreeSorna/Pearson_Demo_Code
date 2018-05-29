@@ -1,28 +1,32 @@
 node{
-   
+   stage('Checkout') 
+   { 
+    
+    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '49e86602-273f-4776-9d05-bd64a07d0c25', url: 'https://github.com/ShreeSorna/Pearson_Demo_Code']]])
+    } 
     stage('build'){
         
-            bat '''cd C:\\Users\\tfssetup\\Desktop\\docker\\aspnetapp
-            dotnet restore
+            bat '''cd %WORKSPACE%\\aspnetapp
             dotnet publish -c Release -o C:\\Users\\tfssetup\\Desktop\\docker\\Artifact'''
 
     }
     stage('Build Docker Image'){
-        bat 'C:\\Users\\tfssetup\\Desktop\\docker\\test\\build_docker_image.bat'
+        bat 'test\\build_docker_image.bat'
     }
     stage('Deploy to Dev'){
         bat '''set KUBECONFIG=C:\\Users\\tfssetup\\.kube\\config
-        kubectl describe deploy pearson-dev
-            kubectl set deployments/pearson-dev pearson-dev=deploymentimagerepo.azurecr.io/testapp_%BUILD_NUMBER%
-            kubectl describe deployments pearson-dev'''
+        kubectl describe deploy pearson-dev --namespace=dev
+            kubectl set image deployments/pearson-dev pearson-dev=deploymentimagerepo.azurecr.io/testapp_%BUILD_NUMBER% --namespace=dev
+            kubectl describe deployments pearson-dev --namespace=dev'''
             timeout(time: 5, unit: 'MINUTES'){
                 input 'Do you want to deploy artifacts into QA?'
             }
     }
     stage('Deploy to QA'){
         bat ''' set KUBECONFIG=C:\\Users\\tfssetup\\.kube\\config
-            kubectl describe deploy pearson-qa
-            kubectl set image deployments/pearson-qa pearson-qa=deploymentimagerepo.azurecr.io/testapp_%BUILD_NUMBER%
-            kubectl describe deploy pearson-qa'''
+            kubectl describe deploy pearson-qa --namespace=qa
+            kubectl set image deployments/pearson-qa pearson-qa=deploymentimagerepo.azurecr.io/testapp_%BUILD_NUMBER% --namespace=qa
+            kubectl describe deploy pearson-qa --namespace=qa'''
     }
 }
+
